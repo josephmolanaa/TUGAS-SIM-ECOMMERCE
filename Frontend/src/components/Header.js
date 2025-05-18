@@ -66,13 +66,13 @@ const Header = () => {
         <div className="container-xxl">
           <div className="row">
             <div className="col-6">
-              <p className="text-white mb-0">Free Shipping Over Rs.100</p>
+              <p className="text-white mb-0">Free Shipping Over $.10</p>
             </div>
             <div className="col-6">
               <p className="text-end text-white mb-0">
                 Hotline:
                 <a className="text-white" href="tel:+91 8264954234">
-                  +91 8264954234
+                  +62 8123456789
                 </a>
               </p>
             </div>
@@ -160,7 +160,7 @@ const Header = () => {
                         {cartState?.length ? cartState?.length : 0}
                       </span>
                       <p className="mb-0">
-                        Rs. {!cartState?.length ? 0 : total ? total : 0}
+                        $. {!cartState?.length ? 0 : total ? total : 0}
                       </p>
                     </div>
                   </Link>
@@ -193,12 +193,12 @@ const Header = () => {
                       className="dropdown-menu"
                       aria-labelledby="dropdownMenuButton1"
                     >
-                      {productState &&
-                        productState.map((item, index) => {
+                      {productState && 
+                        Array.from(new Set(productState.map(item => item.category))).map((category, index) => {
                           return (
                             <li key={index}>
                               <Link className="dropdown-item text-white" to="">
-                                {item?.category}
+                                {category}
                               </Link>
                             </li>
                           );

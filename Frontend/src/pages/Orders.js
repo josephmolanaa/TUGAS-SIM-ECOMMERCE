@@ -60,10 +60,10 @@ const Orders = () => {
                         <p>{item?._id}</p>
                       </div>
                       <div className="col-3">
-                        <p>{item?.totalPrice}</p>
+                        <p>$. {item?.totalPrice} </p>
                       </div>
                       <div className="col-3">
-                        <p>{item?.totalPriceAfterDiscount}</p>
+                        <p> $. {item?.totalPriceAfterDiscount}</p>
                       </div>
                       <div className="col-3">
                         <p>{item?.orderStatus}</p>
@@ -95,10 +95,10 @@ const Orders = () => {
                                     </p>
                                   </div>
                                   <div className="col-3">
-                                    <p className="text-white">{i?.quantity}</p>
+                                    <p className="text-white">{i?.quantity} pcs</p>
                                   </div>
                                   <div className="col-3">
-                                    <p className="text-white">{i?.price}</p>
+                                    <p className="text-white">$. {i?.price}</p>
                                   </div>
                                   <div className="col-3">
                                     <ul className="colors ps-0">

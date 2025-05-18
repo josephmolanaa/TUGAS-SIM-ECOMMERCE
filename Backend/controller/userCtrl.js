@@ -1,20 +1,22 @@
-const User = require("../models/userModel");
-const Product = require("../models/productModel");
-const Cart = require("../models/cartModel");
-const Coupon = require("../models/couponModel");
-const Order = require("../models/orderModel");
-const uniqid = require("uniqid");
+  const User = require("../models/userModel");
+  const Product = require("../models/productModel");
+  const Cart = require("../models/cartModel");
+  const Coupon = require("../models/couponModel");
+  const Order = require("../models/orderModel");
+  const uniqid = require("uniqid");
 
-const asyncHandler = require("express-async-handler");
-const { generateToken } = require("../config/jwtToken");
-const validateMongoDbId = require("../utils/validateMongodbId");
-const { generateRefreshToken } = require("../config/refreshtoken");
-const crypto = require("crypto");
-const jwt = require("jsonwebtoken");
-const sendEmail = require("./emailCtrl");
-const { createPasswordResetToken } = require("../models/userModel");
+  const asyncHandler = require("express-async-handler");
+  const path = require("path");
+  // Removed duplicate import of Product
+  const { generateToken } = require("../config/jwtToken");
+  const validateMongoDbId = require("../utils/validateMongodbId");
+  const { generateRefreshToken } = require("../config/refreshtoken");
+  const crypto = require("crypto");
+  const jwt = require("jsonwebtoken");
+  const sendEmail = require("./emailCtrl");
+  const { createPasswordResetToken } = require("../models/userModel");
 
-// Create a User ----------------------------------------------
+  // Create a User ----------------------------------------------
 
 const createUser = asyncHandler(async (req, res) => {
   /**
@@ -38,6 +40,23 @@ const createUser = asyncHandler(async (req, res) => {
      */
     throw new Error("User Already Exists");
   }
+});
+
+// Temporary register admin user endpoint
+const registerAdmin = asyncHandler(async (req, res) => {
+  const { firstname, lastname, email, password } = req.body;
+  const findAdmin = await User.findOne({ email });
+  if (findAdmin) {
+    return res.status(400).json({ message: "Admin already exists" });
+  }
+  const newAdmin = await User.create({
+    firstname,
+    lastname,
+    email,
+    password,
+    role: "admin",
+  });
+  res.status(201).json({ message: "Admin user created", user: newAdmin });
 });
 
 // Login a user
@@ -71,36 +90,67 @@ const loginUserCtrl = asyncHandler(async (req, res) => {
   }
 });
 
+// Save product images path to product document
+const saveProductImages = asyncHandler(async (req, res) => {
+  const { productId } = req.body;
+  if (!req.files || req.files.length === 0) {
+    return res.status(400).json({ message: "No images uploaded" });
+  }
+  const imageObjects = req.files.map(file => {
+    // Store relative path for frontend access as an object with url property
+    return { url: path.join("/images/products", file.filename).replace(/\\/g, "/") };
+  });
+  try {
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+    // Append new image objects to existing images array
+    product.images = product.images.concat(imageObjects);
+    await product.save();
+    res.status(200).json({ message: "Images saved", images: product.images });
+  } catch (error) {
+    res.status(500).json({ message: "Error saving images", error: error.message });
+  }
+});
+
 // admin login
 
 const loginAdmin = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
-  // check if user exists or not
-  const findAdmin = await User.findOne({ email });
-  if (findAdmin.role !== "admin") throw new Error("Not Authorised");
-  if (findAdmin && (await findAdmin.isPasswordMatched(password))) {
-    const refreshToken = await generateRefreshToken(findAdmin?._id);
-    const updateuser = await User.findByIdAndUpdate(
-      findAdmin.id,
-      {
-        refreshToken: refreshToken,
-      },
-      { new: true }
-    );
-    res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      maxAge: 72 * 60 * 60 * 1000,
-    });
-    res.json({
-      _id: findAdmin?._id,
-      firstname: findAdmin?.firstname,
-      lastname: findAdmin?.lastname,
-      email: findAdmin?.email,
-      mobile: findAdmin?.mobile,
-      token: generateToken(findAdmin?._id),
-    });
-  } else {
-    throw new Error("Invalid Credentials");
+  try {
+    const { email, password } = req.body;
+    const findAdmin = await User.findOne({ email });
+    if (!findAdmin) {
+      return res.status(401).json({ message: "Invalid Credentials" });
+    }
+    if (findAdmin.role !== "admin") {
+      return res.status(403).json({ message: "Not Authorised" });
+    }
+    if (await findAdmin.isPasswordMatched(password)) {
+      const refreshToken = await generateRefreshToken(findAdmin?._id);
+      await User.findByIdAndUpdate(
+        findAdmin.id,
+        { refreshToken: refreshToken },
+        { new: true }
+      );
+      res.cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        maxAge: 72 * 60 * 60 * 1000,
+      });
+      res.json({
+        _id: findAdmin?._id,
+        firstname: findAdmin?.firstname,
+        lastname: findAdmin?.lastname,
+        email: findAdmin?.email,
+        mobile: findAdmin?.mobile,
+        token: generateToken(findAdmin?._id),
+      });
+    } else {
+      return res.status(401).json({ message: "Invalid Credentials" });
+    }
+  } catch (error) {
+    console.error("Login Admin Error:", error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 });
 
@@ -135,9 +185,12 @@ const logout = asyncHandler(async (req, res) => {
     });
     return res.sendStatus(204); // forbidden
   }
-  await User.findOneAndUpdate(refreshToken, {
-    refreshToken: "",
-  });
+  await User.findOneAndUpdate(
+    { refreshToken: refreshToken },
+    {
+      refreshToken: "",
+    }
+  );
   res.clearCookie("refreshToken", {
     httpOnly: true,
     secure: true,
@@ -607,6 +660,7 @@ module.exports = {
   forgotPasswordToken,
   resetPassword,
   loginAdmin,
+  registerAdmin,
   getWishlist,
   saveAddress,
   userCart,

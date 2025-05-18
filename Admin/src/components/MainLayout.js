@@ -7,7 +7,6 @@ import {
   AiOutlineBgColors,
   AiOutlineLogout,
 } from "react-icons/ai";
-
 import { RiCouponLine } from "react-icons/ri";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -189,8 +188,8 @@ const MainLayout = () => {
                 <img
                   width={32}
                   height={32}
-                  src="https://stroyka-admin.html.themeforest.scompiler.ru/variants/ltr/images/customers/customer-4-64x64.jpg"
-                  alt=""
+                  src={process.env.PUBLIC_URL + "/mimi peri.jpg"}
+                  alt="logo"
                 />
               </div>
               <div
@@ -199,8 +198,8 @@ const MainLayout = () => {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                <h5 className="mb-0">Dev</h5>
-                <p className="mb-0">devjariwala8444@gmail.com</p>
+                <h5 className="mb-0">Admin</h5>
+                <p className="mb-0"></p>
               </div>
               <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 <li>

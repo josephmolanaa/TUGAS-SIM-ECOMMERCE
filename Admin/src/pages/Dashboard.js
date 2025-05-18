@@ -68,52 +68,71 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
-    let monthNames = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
-    let data = [];
+    if (monthlyDataState && monthlyDataState.length > 0) {
+      // Sort monthlyDataState by _id.month ascending
+      const sortedMonthlyData = [...monthlyDataState].sort(
+        (a, b) => a._id.month - b._id.month
+      );
 
-    let monthlyOrderCount = [];
-    for (let index = 0; index < monthlyDataState?.length; index++) {
-      const element = monthlyDataState[index];
-      data.push({
-        type: monthNames[element?._id?.month],
-        income: element?.amount,
-      });
-      monthlyOrderCount.push({
-        type: monthNames[element?._id?.month],
-        income: element?.count,
-      });
+      let monthNames = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ];
+      let data = [];
+
+      let monthlyOrderCount = [];
+      for (let index = 0; index < sortedMonthlyData.length; index++) {
+        const element = sortedMonthlyData[index];
+        data.push({
+          type: monthNames[element?._id?.month - 1],
+          income: element?.amount,
+        });
+        monthlyOrderCount.push({
+          type: monthNames[element?._id?.month - 1],
+          income: element?.count,
+        });
+      }
+
+      setDataMonthly(data);
+      setDataMonthlySales(monthlyOrderCount);
     }
-
-    setDataMonthly(data);
-    setDataMonthlySales(monthlyOrderCount);
 
     const data1 = [];
 
-    for (let i = 0; i < orderState?.length; i++) {
+    // Sort orders by createdAt descending if available, else reverse
+    let sortedOrders = [];
+    if (orderState && orderState.length > 0) {
+      if (orderState[0].createdAt) {
+        sortedOrders = [...orderState].sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
+      } else {
+        sortedOrders = [...orderState].reverse();
+      }
+    }
+
+    for (let i = 0; i < sortedOrders.length; i++) {
       data1.push({
         key: i,
-        name: orderState[i].user.firstname + " " + orderState[i].user.lastname,
-        product: orderState[i].orderItems?.length,
-        price: orderState[i]?.totalPrice,
-        dprice: orderState[i]?.totalPriceAfterDiscount,
-        staus: orderState[i]?.orderStatus,
+        name: sortedOrders[i].user.firstname + " " + sortedOrders[i].user.lastname,
+        product: sortedOrders[i].orderItems?.length,
+        price: sortedOrders[i]?.totalPrice,
+        dprice: sortedOrders[i]?.totalPriceAfterDiscount,
+        staus: sortedOrders[i]?.orderStatus,
       });
     }
     setOrderData(data1);
-  }, [monthlyDataState, yearlyDataState]);
+  }, [monthlyDataState, yearlyDataState, orderState]);
 
   const config = {
     data: dataMonthly,
@@ -183,7 +202,7 @@ const Dashboard = () => {
           <div>
             <p className="desc">Total Income</p>
             <h4 className="mb-0 sub-title">
-              Rs.{yearlyDataState && yearlyDataState[0]?.amount}
+              $.{yearlyDataState && yearlyDataState[0]?.amount}
             </h4>
           </div>
           <div className="d-flex flex-column align-items-end">

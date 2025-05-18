@@ -41,7 +41,7 @@ const Contact = () => {
         <div className="row">
           <div className="col-12">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6986.771103663534!2d76.99275607711007!3d28.886888929272477!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390da5e51463d4c9%3A0xe5a485e2ac7c3d4a!2sMandaura%2C%20Haryana%20131103!5e0!3m2!1sen!2sin!4v1669909087902!5m2!1sen!2sin"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2477.3241732973784!2d112.61578666239657!3d-7.960594299999989!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e788281bdd08839%3A0xc915f268bffa831f!2sUniversitas%20Negeri%20Malang!5e1!3m2!1sen!2sid!4v1747397688634!5m2!1sen!2sid"
               width="600"
               height="450"
               className="border-0 w-100"
@@ -130,18 +130,17 @@ const Contact = () => {
                     <li className="mb-3 d-flex gap-15 align-items-center">
                       <AiOutlineHome className="fs-5" />
                       <address className="mb-0">
-                        Hno : Daiict college, Reliance Cross Rd,
-                        Gandhinagar,Gujarat, 382007
+                        Jl. Cakrawala No.5, Sumbersari, Kec. Lowokwaru, Kota Malang, Jawa Timur, 65145
                       </address>
                     </li>
                     <li className="mb-3 d-flex gap-15 align-items-center">
                       <BiPhoneCall className="fs-5" />
-                      <a href="tel:+91 8264954234">+91 8264954234</a>
+                      <a href="tel:+62 8123456789">+62 8123456789</a>
                     </li>
                     <li className="mb-3 d-flex gap-15 align-items-center">
                       <AiOutlineMail className="fs-5" />
-                      <a href="mailto:devjariwala8444@gmail.com">
-                        devjariwala8444@gmail.com
+                      <a href="mailto:josephmolana@gmail.com">
+                        josephmolana@gmail.com
                       </a>
                     </li>
                     <li className="mb-3 d-flex gap-15 align-items-center">

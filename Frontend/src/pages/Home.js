@@ -58,7 +58,7 @@ const Home = () => {
               <div className="main-banner-content position-absolute">
                 <h4>SUPERCHARGED FOR PROS.</h4>
                 <h5>iPad S13+ Pro.</h5>
-                <p>From Rs. 81,900.00 </p>
+                <p>From $. 819 </p>
                 <Link className="button">BUY NOW</Link>
               </div>
             </div>
@@ -75,7 +75,7 @@ const Home = () => {
                   <h4>Best Sake</h4>
                   <h5>MacBook Pro.</h5>
                   <p>
-                    From Rs. 1,29,900.00 <br />
+                    From $. 1,299 <br />
                   </p>
                 </div>
               </div>
@@ -89,7 +89,7 @@ const Home = () => {
                   <h4>NEW ARRIVAL</h4>
                   <h5>But IPad Air</h5>
                   <p>
-                    From Rs. 21,625.00 <br />
+                    From $. 216 <br />
                   </p>
                 </div>
               </div>
@@ -103,7 +103,7 @@ const Home = () => {
                   <h4>NEW ARRIVAL</h4>
                   <h5>But IPad Air</h5>
                   <p>
-                    From Rs. 41,900.00 <br />
+                    From $. 419 <br />
                   </p>
                 </div>
               </div>
@@ -117,7 +117,7 @@ const Home = () => {
                   <h4>NEW ARRIVAL</h4>
                   <h5>But Headphone</h5>
                   <p>
-                    From Rs. 41,000.00 <br />
+                    From $. 400 <br />
                   </p>
                 </div>
               </div>
@@ -232,7 +232,7 @@ const Home = () => {
                       </div>
                       <div className="product-image">
                         <img
-                          src={item?.images[0]?.url}
+                          src={item?.images && item.images.length > 0 ? item.images[0].url : ""}
                           //className="img-fluid d"
                           alt="product image"
                           height={"250px"}
@@ -240,7 +240,7 @@ const Home = () => {
                           onClick={() => navigate("/product/" + item?._id)}
                         />
                         <img
-                          src={item?.images[0]?.url}
+                          src={item?.images && item.images.length > 0 ? item.images[0].url : ""}
                           //className="img-fluid d"
                           alt="product image"
                           height={"250px"}
@@ -261,7 +261,7 @@ const Home = () => {
                           activeColor="#ffd700"
                         />
 
-                        <p className="price">Rs. {item?.price}</p>
+                        <p className="price">$. {item?.price}</p>
                       </div>
                       <div className="action-bar position-absolute">
                         <div className="d-flex flex-column gap-15">
@@ -300,7 +300,7 @@ const Home = () => {
               <div className="famous-content position-absolute">
                 <h5>Big Screen</h5>
                 <h6>Smart Watch Series 7</h6>
-                <p>From Rs. 399</p>
+                <p>From $. 399</p>
               </div>
             </div>
           </div>
@@ -328,7 +328,7 @@ const Home = () => {
               <div className="famous-content position-absolute">
                 <h5 className="text-dark">smartphones</h5>
                 <h6 className="text-dark">Iphone 14 Pro.</h6>
-                <p className="text-dark">Now in Green. From Rs. 61,000.00</p>
+                <p className="text-dark">Now in Green. From $. 6,100</p>
               </div>
             </div>
           </div>
@@ -342,7 +342,7 @@ const Home = () => {
               <div className="famous-content position-absolute">
                 <h5 className="text-dark">home speakers</h5>
                 <h6 className="text-dark">Room-filling sound.</h6>
-                <p className="text-dark">From Rs. 699</p>
+                <p className="text-dark">From $. 699</p>
               </div>
             </div>
           </div>
@@ -368,7 +368,7 @@ const Home = () => {
                     brand={item?.brand}
                     totalrating={item?.totalrating.toString()}
                     price={item?.price}
-                    img={item?.images[0].url}
+                    img={item?.images && item.images.length > 0 ? item.images[0].url : "/default-image.jpg"}
                     sold={item?.sold}
                     quantity={item?.quantity}
                   />
@@ -403,7 +403,7 @@ const Home = () => {
                       </div>
                       <div className="product-image">
                         <img
-                          src={item?.images[0].url}
+                          src={item?.images && item.images.length > 0 ? item.images[0].url : "/default-image.jpg"}
                           // className="img-fluid d"
                           alt="product image"
                           height={"250px"}
@@ -411,7 +411,7 @@ const Home = () => {
                           onClick={() => navigate("/product/" + item?._id)}
                         />
                         <img
-                          src={item?.images[0].url}
+                          src={item?.images && item.images.length > 0 ? item.images[0].url : "/default-image.jpg"}
                           // className="img-fluid d"
                           alt="product image"
                           height={"250px"}
@@ -432,7 +432,7 @@ const Home = () => {
                           activeColor="#ffd700"
                         />
 
-                        <p className="price">Rs. {item?.price}</p>
+                        <p className="price">$. {item?.price}</p>
                       </div>
                       <div className="action-bar position-absolute">
                         <div className="d-flex flex-column gap-15">
@@ -509,7 +509,7 @@ const Home = () => {
                       id={item?._id}
                       title={item?.title}
                       description={item?.description}
-                      image={item?.images[0]?.url}
+                      image={item?.images && item.images.length > 0 ? item.images[0].url : "/default-image.jpg"}
                       date={moment(item?.createdAt).format(
                         "MMMM Do YYYY, h:mm a"
                       )}

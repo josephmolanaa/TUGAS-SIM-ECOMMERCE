@@ -81,14 +81,6 @@ const ProductCard = (props) => {
                   width={"100%"}
                   onClick={() => navigate("/product/" + item?._id)}
                 />
-                <img
-                  src={item?.images[0]?.url}
-                  // className="img-fluid d"
-                  alt="product image"
-                  height={"250px"}
-                  width={"100%"}
-                  onClick={() => navigate("/product/" + item?._id)}
-                />
               </div>
               <div className="product-details">
                 <h6 className="brand">{item?.brand}</h6>
@@ -105,7 +97,7 @@ const ProductCard = (props) => {
                   activeColor="#ffd700"
                 />
 
-                <p className="price">Rs.{item?.price}</p>
+                <p className="price">$.{item?.price}</p>
               </div>
               <div className="action-bar position-absolute">
                 <div className="d-flex flex-column gap-15">
