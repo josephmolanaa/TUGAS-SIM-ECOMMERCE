@@ -130,7 +130,7 @@ const SingleProduct = () => {
 
   return (
     <>
-      <Meta title={"Product Name"} />
+      <Meta title={productState?.title ? productState.title : "Product"} />
       <BreadCrumb title={productState?.title} />
       <Container class1="main-product-wrapper py-5 home-wrapper-2">
         <div className="row">
@@ -156,7 +156,7 @@ const SingleProduct = () => {
                 <h3 className="title">{productState?.title}</h3>
               </div>
               <div className="border-bottom py-3">
-                <p className="price"> Rs. {productState?.price}/-</p>
+                <p className="price"> $. {productState?.price}/-</p>
                 <div className="d-flex align-items-center gap-10">
                   <ReactStars
                     count={5}
@@ -406,13 +406,13 @@ const SingleProduct = () => {
           </div>
         </div>
       </Container>
-      <Container class1="popular-wrapper py-5 home-wrapper-2">
+      <Container class1="popular-single-wrapper py-5 home-wrapper-2">
         <div className="row">
           <div className="col-12">
             <h3 className="section-heading">Our Popular Products</h3>
           </div>
         </div>
-        <div className="row">
+        <div className="row gy-4">
           <ProductCard data={popularProduct} />
         </div>
       </Container>

@@ -305,7 +305,15 @@ footer .input-group-text {
 .store-wrapper .product-card:hover .product-image > img:last-child {
   display: block !important;
 }
-
+.popular-single-wrapper .product-card .product-image > img:last-child {
+  display: block !important;
+}
+.popular-single-wrapper .product-card:hover .product-image > img:nth-child(1) {
+  display: block !important;
+}
+.popular-single-wrapper .product-card:hover .product-image > img:last-child {
+  display: block !important;
+}
 .product-card .product-details h6 {
   color: var(--color-bf4800);
   font-size: 13px;
